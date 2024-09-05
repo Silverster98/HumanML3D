@@ -55,7 +55,8 @@ class Skeleton(object):
     def inverse_kinematics_np(self, joints, face_joint_idx, smooth_forward=False):
         assert len(face_joint_idx) == 4
         '''Get Forward Direction'''
-        l_hip, r_hip, sdr_r, sdr_l = face_joint_idx
+        # l_hip, r_hip, sdr_r, sdr_l = face_joint_idx
+        r_hip, l_hip, sdr_r, sdr_l = face_joint_idx # Please refer to https://github.com/EricGuo5513/HumanML3D/issues/119
         across1 = joints[:, r_hip] - joints[:, l_hip]
         across2 = joints[:, sdr_r] - joints[:, sdr_l]
         across = across1 + across2
@@ -82,7 +83,8 @@ class Skeleton(object):
         quat_params[:, 0] = root_quat
         # quat_params[0, 0] = np.array([[1.0, 0.0, 0.0, 0.0]])
         for chain in self._kinematic_tree:
-            R = root_quat
+            # R = root_quat
+            R = quat_params[:, chain[0]] # Please refer to https://github.com/EricGuo5513/HumanML3D/issues/119
             for j in range(len(chain) - 1):
                 # (batch, 3)
                 u = self._raw_offset_np[chain[j+1]][np.newaxis,...].repeat(len(joints), axis=0)
