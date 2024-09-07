@@ -83,8 +83,8 @@ class Skeleton(object):
         quat_params[:, 0] = root_quat
         # quat_params[0, 0] = np.array([[1.0, 0.0, 0.0, 0.0]])
         for chain in self._kinematic_tree:
-            # R = root_quat
-            R = quat_params[:, chain[0]] # Please refer to https://github.com/EricGuo5513/HumanML3D/issues/119
+            R = root_quat
+            # R = quat_params[:, chain[0]] # Please refer to https://github.com/EricGuo5513/HumanML3D/issues/119. I withdrew this modification because I found the result is weired after changing it.
             for j in range(len(chain) - 1):
                 # (batch, 3)
                 u = self._raw_offset_np[chain[j+1]][np.newaxis,...].repeat(len(joints), axis=0)
